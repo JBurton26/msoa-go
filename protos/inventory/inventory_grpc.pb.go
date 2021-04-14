@@ -36,7 +36,7 @@ func NewInventoryClient(cc grpc.ClientConnInterface) InventoryClient {
 
 func (c *inventoryClient) GetStock(ctx context.Context, in *LevelRequest, opts ...grpc.CallOption) (*LevelResponse, error) {
 	out := new(LevelResponse)
-	err := c.cc.Invoke(ctx, "/inventory.Inventory/GetStock", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Inventory/GetStock", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (c *inventoryClient) GetStock(ctx context.Context, in *LevelRequest, opts .
 
 func (c *inventoryClient) ChangeStock(ctx context.Context, in *AmendRequest, opts ...grpc.CallOption) (*AmendResponse, error) {
 	out := new(AmendResponse)
-	err := c.cc.Invoke(ctx, "/inventory.Inventory/ChangeStock", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Inventory/ChangeStock", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func _Inventory_GetStock_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/inventory.Inventory/GetStock",
+		FullMethod: "/Inventory/GetStock",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InventoryServer).GetStock(ctx, req.(*LevelRequest))
@@ -110,7 +110,7 @@ func _Inventory_ChangeStock_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/inventory.Inventory/ChangeStock",
+		FullMethod: "/Inventory/ChangeStock",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(InventoryServer).ChangeStock(ctx, req.(*AmendRequest))
@@ -122,7 +122,7 @@ func _Inventory_ChangeStock_Handler(srv interface{}, ctx context.Context, dec fu
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Inventory_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "inventory.Inventory",
+	ServiceName: "Inventory",
 	HandlerType: (*InventoryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

@@ -6,6 +6,7 @@ import (
 
 	"log"
 
+	cost "github.com/JBurton26/msoa-go/protos/cost"
 	inv "github.com/JBurton26/msoa-go/protos/inventory"
 	"google.golang.org/grpc"
 )
@@ -19,27 +20,28 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := inv.NewInventoryClient(conn)
+	invCli := inv.NewInventoryClient(conn)
 	mess := inv.LevelRequest{
 		ID:       "hello",
 		Location: "world",
 	}
-	response, err := c.GetStock(context.Background(), &mess)
+	response, err := invCli.GetStock(context.Background(), &mess)
 	if err != nil {
 		log.Fatal("Error when calling GetStock", err)
 		os.Exit(1)
 	}
 	log.Print("Response from Server: ", response.StockCount)
-	/*
-		mess2 := inv.CostRequest{
-			ID: "hello",
-		}
-		response2, err := c.GetUnitCost(context.Background(), &mess2)
-		if err != nil {
-			log.Fatalf("Error when calling GetUnitCost", err)
-			os.Exit(1)
-		}
-		log.Print("Response from Server: ", response2.StockCost)
-	*/
+
+	costCli := cost.NewCostClient(conn)
+	mess2 := cost.CostRequest{
+		ID: "hello",
+	}
+	response2, err := costCli.GetUnitCost(context.Background(), &mess2)
+	if err != nil {
+		log.Fatal("Error when calling GetUnitCost", err)
+		os.Exit(1)
+	}
+	log.Print("Response from Server: ", response2.StockCost)
+
 	conn.Close()
 }
