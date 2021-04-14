@@ -3,7 +3,7 @@ package logic
 import (
 	"context"
 
-	inv "github.com/JBurton26/protos/inventory"
+	inv "github.com/JBurton26/msoa-go/protos/inventory"
 	hclog "github.com/hashicorp/go-hclog"
 )
 

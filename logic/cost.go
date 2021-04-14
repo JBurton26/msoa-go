@@ -3,7 +3,7 @@ package logic
 import (
 	"context"
 
-	cost "github.com/JBurton26/protos/cost"
+	cost "github.com/JBurton26/msoa-go/protos/cost"
 	hclog "github.com/hashicorp/go-hclog"
 )
 

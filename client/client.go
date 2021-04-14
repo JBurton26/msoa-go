@@ -6,7 +6,7 @@ import (
 
 	"log"
 
-	inv "github.com/JBurton26/protos/inventory"
+	inv "github.com/JBurton26/msoa-go/protos/inventory"
 	"google.golang.org/grpc"
 )
 
