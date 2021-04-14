@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package = "cost/";
+service Cost {
+  rpc GetUnitCost(CostRequest) returns (CostResponse);
+}
+
+message CostRequest {
+  string ID = 1;
+}
+
+message CostResponse {
+  float StockCost = 1;
+}

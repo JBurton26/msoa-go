@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option go_package = "user/";
+
+service User {
+  rpc GetUserByID(IDUserRequest) returns (UserResponse);
+  rpc GetUserByUN(UNUserRequest) returns (UserResponse);
+  rpc GetAccess(IDUserRequest) returns (AccessResponse);
+  rpc Login(AuthsRequest) returns (AccessResponse);
+}
+
+message IDUserRequest {
+  string ID = 1;
+}
+
+message UNUserRequest {
+  string Username = 1;
+}
+
+message AuthsRequest {
+  string Username = 1;
+  string Pass = 2;
+}
+
+message UserResponse {
+  string ID = 1;
+  string Name = 2;
+  string Username = 3;
+  int32 AccessLevel = 4;
+}
+
+message AccessResponse {
+  int32 AccessLevel = 1;
+}

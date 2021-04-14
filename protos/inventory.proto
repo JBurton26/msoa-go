@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option go_package = "inventory/";
+package inventory;
+service Inventory {
+  rpc GetStock(LevelRequest) returns (LevelResponse);
+  rpc ChangeStock(AmendRequest) returns (AmendResponse);
+}
+
+message LevelRequest {
+  string ID = 1;
+  string Location = 2;
+}
+
+message LevelResponse {
+  int32 StockCount = 1;
+}
+
+message AmendRequest {
+  string ID = 1;
+  string Location = 2;
+  int32 Amount = 3;
+}
+
+message AmendResponse{
+  string Response = 1;
+}
