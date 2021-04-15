@@ -18,9 +18,10 @@ func NewInventory(l hclog.Logger) *Inventory {
 }
 
 // GetStock gets the stock
-func (i *Inventory) GetStock(ctx context.Context, lr *inv.LevelRequest) (*inv.LevelResponse, error) {
+func (i *Inventory) GetStock(ctx context.Context, lr *inv.LevelRequest) (*inv.StockItem, error) {
 	i.log.Info("Handle GetStock", "id", lr.GetID(), "location", lr.GetLocation())
-	return &inv.LevelResponse{StockCount: 5}, nil
+	stock := inv.StockItem{}
+	return &stock, nil
 }
 
 // ChangeStock Blah Blah Blah
@@ -28,4 +29,12 @@ func (i *Inventory) GetStock(ctx context.Context, lr *inv.LevelRequest) (*inv.Le
 func (i *Inventory) ChangeStock(ctx context.Context, cr *inv.AmendRequest) (*inv.AmendResponse, error) {
 	i.log.Info("Handle ChangeStock", "id", cr.GetID(), "location", cr.GetLocation(), "change amount", cr.GetAmount())
 	return &inv.AmendResponse{Response: "Placeholder Response: Hello World!"}, nil
+}
+
+// CheckShort Blah Blah Blah
+// TODO Access and amend from db?
+func (i *Inventory) CheckShort(ctx context.Context, cr *inv.ShortRequest) (*inv.ShortList, error) {
+	i.log.Info("Handle ChangeStock", "location", cr.GetLocation())
+	short := inv.ShortList{}
+	return &short, nil
 }

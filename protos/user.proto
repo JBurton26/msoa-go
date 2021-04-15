@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "user/";
+option go_package = "github.com/JBurton26/msoa-go/protos/user/";
 
 service User {
   rpc GetUserByID(IDUserRequest) returns (UserResponse);

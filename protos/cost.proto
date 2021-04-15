@@ -1,8 +1,17 @@
 syntax = "proto3";
 
-option go_package = "cost/";
+option go_package = "github.com/JBurton26/msoa-go/protos/cost/";
 service Cost {
   rpc GetUnitCost(CostRequest) returns (CostResponse);
+  rpc TotalBasket(Basket) returns (CostResponse);
+}
+
+message Basket {
+  message Item { //Repeated in order.proto
+    string ID = 1;
+    int32 Count = 2;
+  }
+  repeated Item Items = 1;
 }
 
 message CostRequest {
@@ -10,5 +19,5 @@ message CostRequest {
 }
 
 message CostResponse {
-  float StockCost = 1;
+  float Price = 1;
 }

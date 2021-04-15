@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "github.com/JBurton26/msoa-go/protos/order/";
+
+service Order {
+  rpc MakeOrder (OrderRequest) returns (OrderResponse);
+}
+
+message OrderRequest {
+  message Item { //Repeated in cost.proto
+    string ID = 1;
+    int32 Count = 2;
+  }
+  string ID = 1;
+  string Location = 2;
+  string StaffID = 3;
+  repeated Item Basket = 4;
+  optional string Email = 5;
+  float Total = 6;
+}
+
+message OrderResponse {
+  string Body = 1;
+}

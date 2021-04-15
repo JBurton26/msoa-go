@@ -41,7 +41,7 @@ func main() {
 		log.Fatal("Error when calling GetUnitCost", err)
 		os.Exit(1)
 	}
-	log.Print("Response from Server: ", response2.StockCost)
+	log.Print("Response from Server: ", response2.Cost)
 
 	conn.Close()
 }

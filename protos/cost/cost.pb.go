@@ -20,6 +20,53 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Basket struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Items []*Basket_Item `protobuf:"bytes,1,rep,name=Items,proto3" json:"Items,omitempty"`
+}
+
+func (x *Basket) Reset() {
+	*x = Basket{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cost_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Basket) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Basket) ProtoMessage() {}
+
+func (x *Basket) ProtoReflect() protoreflect.Message {
+	mi := &file_cost_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Basket.ProtoReflect.Descriptor instead.
+func (*Basket) Descriptor() ([]byte, []int) {
+	return file_cost_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Basket) GetItems() []*Basket_Item {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
 type CostRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -31,7 +78,7 @@ type CostRequest struct {
 func (x *CostRequest) Reset() {
 	*x = CostRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cost_proto_msgTypes[0]
+		mi := &file_cost_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -44,7 +91,7 @@ func (x *CostRequest) String() string {
 func (*CostRequest) ProtoMessage() {}
 
 func (x *CostRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_proto_msgTypes[0]
+	mi := &file_cost_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,7 +104,7 @@ func (x *CostRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CostRequest.ProtoReflect.Descriptor instead.
 func (*CostRequest) Descriptor() ([]byte, []int) {
-	return file_cost_proto_rawDescGZIP(), []int{0}
+	return file_cost_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CostRequest) GetID() string {
@@ -72,13 +119,13 @@ type CostResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StockCost float32 `protobuf:"fixed32,1,opt,name=StockCost,proto3" json:"StockCost,omitempty"`
+	Price float32 `protobuf:"fixed32,1,opt,name=Price,proto3" json:"Price,omitempty"`
 }
 
 func (x *CostResponse) Reset() {
 	*x = CostResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_cost_proto_msgTypes[1]
+		mi := &file_cost_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -91,7 +138,7 @@ func (x *CostResponse) String() string {
 func (*CostResponse) ProtoMessage() {}
 
 func (x *CostResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_cost_proto_msgTypes[1]
+	mi := &file_cost_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,12 +151,67 @@ func (x *CostResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CostResponse.ProtoReflect.Descriptor instead.
 func (*CostResponse) Descriptor() ([]byte, []int) {
-	return file_cost_proto_rawDescGZIP(), []int{1}
+	return file_cost_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *CostResponse) GetStockCost() float32 {
+func (x *CostResponse) GetPrice() float32 {
 	if x != nil {
-		return x.StockCost
+		return x.Price
+	}
+	return 0
+}
+
+type Basket_Item struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID    string `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Count int32  `protobuf:"varint,2,opt,name=Count,proto3" json:"Count,omitempty"`
+}
+
+func (x *Basket_Item) Reset() {
+	*x = Basket_Item{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_cost_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Basket_Item) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Basket_Item) ProtoMessage() {}
+
+func (x *Basket_Item) ProtoReflect() protoreflect.Message {
+	mi := &file_cost_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Basket_Item.ProtoReflect.Descriptor instead.
+func (*Basket_Item) Descriptor() ([]byte, []int) {
+	return file_cost_proto_rawDescGZIP(), []int{0, 0}
+}
+
+func (x *Basket_Item) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *Basket_Item) GetCount() int32 {
+	if x != nil {
+		return x.Count
 	}
 	return 0
 }
@@ -117,16 +219,26 @@ func (x *CostResponse) GetStockCost() float32 {
 var File_cost_proto protoreflect.FileDescriptor
 
 var file_cost_proto_rawDesc = []byte{
-	0x0a, 0x0a, 0x63, 0x6f, 0x73, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x1d, 0x0a, 0x0b,
-	0x43, 0x6f, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x49,
-	0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x22, 0x2c, 0x0a, 0x0c, 0x43,
-	0x6f, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x53,
-	0x74, 0x6f, 0x63, 0x6b, 0x43, 0x6f, 0x73, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x02, 0x52, 0x09,
-	0x53, 0x74, 0x6f, 0x63, 0x6b, 0x43, 0x6f, 0x73, 0x74, 0x32, 0x32, 0x0a, 0x04, 0x43, 0x6f, 0x73,
-	0x74, 0x12, 0x2a, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x55, 0x6e, 0x69, 0x74, 0x43, 0x6f, 0x73, 0x74,
-	0x12, 0x0c, 0x2e, 0x43, 0x6f, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d,
-	0x2e, 0x43, 0x6f, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x07, 0x5a,
-	0x05, 0x63, 0x6f, 0x73, 0x74, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x0a, 0x0a, 0x63, 0x6f, 0x73, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x5a, 0x0a, 0x06,
+	0x42, 0x61, 0x73, 0x6b, 0x65, 0x74, 0x12, 0x22, 0x0a, 0x05, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x42, 0x61, 0x73, 0x6b, 0x65, 0x74, 0x2e, 0x49,
+	0x74, 0x65, 0x6d, 0x52, 0x05, 0x49, 0x74, 0x65, 0x6d, 0x73, 0x1a, 0x2c, 0x0a, 0x04, 0x49, 0x74,
+	0x65, 0x6d, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
+	0x49, 0x44, 0x12, 0x14, 0x0a, 0x05, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x05, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x1d, 0x0a, 0x0b, 0x43, 0x6f, 0x73, 0x74,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x22, 0x24, 0x0a, 0x0c, 0x43, 0x6f, 0x73, 0x74, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x50, 0x72, 0x69, 0x63, 0x65,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x02, 0x52, 0x05, 0x50, 0x72, 0x69, 0x63, 0x65, 0x32, 0x59, 0x0a,
+	0x04, 0x43, 0x6f, 0x73, 0x74, 0x12, 0x2a, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x55, 0x6e, 0x69, 0x74,
+	0x43, 0x6f, 0x73, 0x74, 0x12, 0x0c, 0x2e, 0x43, 0x6f, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x43, 0x6f, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x25, 0x0a, 0x0b, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x42, 0x61, 0x73, 0x6b, 0x65, 0x74,
+	0x12, 0x07, 0x2e, 0x42, 0x61, 0x73, 0x6b, 0x65, 0x74, 0x1a, 0x0d, 0x2e, 0x43, 0x6f, 0x73, 0x74,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x2b, 0x5a, 0x29, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4a, 0x42, 0x75, 0x72, 0x74, 0x6f, 0x6e, 0x32, 0x36,
+	0x2f, 0x6d, 0x73, 0x6f, 0x61, 0x2d, 0x67, 0x6f, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x73, 0x2f,
+	0x63, 0x6f, 0x73, 0x74, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -141,19 +253,24 @@ func file_cost_proto_rawDescGZIP() []byte {
 	return file_cost_proto_rawDescData
 }
 
-var file_cost_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_cost_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_cost_proto_goTypes = []interface{}{
-	(*CostRequest)(nil),  // 0: CostRequest
-	(*CostResponse)(nil), // 1: CostResponse
+	(*Basket)(nil),       // 0: Basket
+	(*CostRequest)(nil),  // 1: CostRequest
+	(*CostResponse)(nil), // 2: CostResponse
+	(*Basket_Item)(nil),  // 3: Basket.Item
 }
 var file_cost_proto_depIdxs = []int32{
-	0, // 0: Cost.GetUnitCost:input_type -> CostRequest
-	1, // 1: Cost.GetUnitCost:output_type -> CostResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3, // 0: Basket.Items:type_name -> Basket.Item
+	1, // 1: Cost.GetUnitCost:input_type -> CostRequest
+	0, // 2: Cost.TotalBasket:input_type -> Basket
+	2, // 3: Cost.GetUnitCost:output_type -> CostResponse
+	2, // 4: Cost.TotalBasket:output_type -> CostResponse
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_cost_proto_init() }
@@ -163,7 +280,7 @@ func file_cost_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_cost_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CostRequest); i {
+			switch v := v.(*Basket); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -175,7 +292,31 @@ func file_cost_proto_init() {
 			}
 		}
 		file_cost_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CostRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cost_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CostResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_cost_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Basket_Item); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -193,7 +334,7 @@ func file_cost_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_cost_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

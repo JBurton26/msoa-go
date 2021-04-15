@@ -21,5 +21,5 @@ func NewCost(l hclog.Logger) *Cost {
 // TODO Currency Conversions?
 func (c *Cost) GetUnitCost(ctx context.Context, cr *cost.CostRequest) (*cost.CostResponse, error) {
 	c.log.Info("Handle GetUnitCost", "id", cr.GetID())
-	return &cost.CostResponse{StockCost: 5.99}, nil
+	return &cost.CostResponse{Price: 5.99}, nil
 }

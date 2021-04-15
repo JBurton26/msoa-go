@@ -22,8 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type InventoryClient interface {
-	GetStock(ctx context.Context, in *LevelRequest, opts ...grpc.CallOption) (*LevelResponse, error)
+	GetStock(ctx context.Context, in *LevelRequest, opts ...grpc.CallOption) (*StockItem, error)
 	ChangeStock(ctx context.Context, in *AmendRequest, opts ...grpc.CallOption) (*AmendResponse, error)
+	CheckShort(ctx context.Context, in *ShortRequest, opts ...grpc.CallOption) (*ShortList, error)
 }
 
 type inventoryClient struct {
@@ -34,8 +35,8 @@ func NewInventoryClient(cc grpc.ClientConnInterface) InventoryClient {
 	return &inventoryClient{cc}
 }
 
-func (c *inventoryClient) GetStock(ctx context.Context, in *LevelRequest, opts ...grpc.CallOption) (*LevelResponse, error) {
-	out := new(LevelResponse)
+func (c *inventoryClient) GetStock(ctx context.Context, in *LevelRequest, opts ...grpc.CallOption) (*StockItem, error) {
+	out := new(StockItem)
 	err := c.cc.Invoke(ctx, "/Inventory/GetStock", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -52,23 +53,36 @@ func (c *inventoryClient) ChangeStock(ctx context.Context, in *AmendRequest, opt
 	return out, nil
 }
 
+func (c *inventoryClient) CheckShort(ctx context.Context, in *ShortRequest, opts ...grpc.CallOption) (*ShortList, error) {
+	out := new(ShortList)
+	err := c.cc.Invoke(ctx, "/Inventory/CheckShort", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // InventoryServer is the server API for Inventory service.
 // All implementations should embed UnimplementedInventoryServer
 // for forward compatibility
 type InventoryServer interface {
-	GetStock(context.Context, *LevelRequest) (*LevelResponse, error)
+	GetStock(context.Context, *LevelRequest) (*StockItem, error)
 	ChangeStock(context.Context, *AmendRequest) (*AmendResponse, error)
+	CheckShort(context.Context, *ShortRequest) (*ShortList, error)
 }
 
 // UnimplementedInventoryServer should be embedded to have forward compatible implementations.
 type UnimplementedInventoryServer struct {
 }
 
-func (UnimplementedInventoryServer) GetStock(context.Context, *LevelRequest) (*LevelResponse, error) {
+func (UnimplementedInventoryServer) GetStock(context.Context, *LevelRequest) (*StockItem, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStock not implemented")
 }
 func (UnimplementedInventoryServer) ChangeStock(context.Context, *AmendRequest) (*AmendResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeStock not implemented")
+}
+func (UnimplementedInventoryServer) CheckShort(context.Context, *ShortRequest) (*ShortList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckShort not implemented")
 }
 
 // UnsafeInventoryServer may be embedded to opt out of forward compatibility for this service.
@@ -118,6 +132,24 @@ func _Inventory_ChangeStock_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Inventory_CheckShort_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShortRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InventoryServer).CheckShort(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Inventory/CheckShort",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InventoryServer).CheckShort(ctx, req.(*ShortRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Inventory_ServiceDesc is the grpc.ServiceDesc for Inventory service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -132,6 +164,10 @@ var Inventory_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ChangeStock",
 			Handler:    _Inventory_ChangeStock_Handler,
+		},
+		{
+			MethodName: "CheckShort",
+			Handler:    _Inventory_CheckShort_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

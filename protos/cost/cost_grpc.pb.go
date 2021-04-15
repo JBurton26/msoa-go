@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CostClient interface {
 	GetUnitCost(ctx context.Context, in *CostRequest, opts ...grpc.CallOption) (*CostResponse, error)
+	TotalBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*CostResponse, error)
 }
 
 type costClient struct {
@@ -42,11 +43,21 @@ func (c *costClient) GetUnitCost(ctx context.Context, in *CostRequest, opts ...g
 	return out, nil
 }
 
+func (c *costClient) TotalBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*CostResponse, error) {
+	out := new(CostResponse)
+	err := c.cc.Invoke(ctx, "/Cost/TotalBasket", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CostServer is the server API for Cost service.
 // All implementations should embed UnimplementedCostServer
 // for forward compatibility
 type CostServer interface {
 	GetUnitCost(context.Context, *CostRequest) (*CostResponse, error)
+	TotalBasket(context.Context, *Basket) (*CostResponse, error)
 }
 
 // UnimplementedCostServer should be embedded to have forward compatible implementations.
@@ -55,6 +66,9 @@ type UnimplementedCostServer struct {
 
 func (UnimplementedCostServer) GetUnitCost(context.Context, *CostRequest) (*CostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUnitCost not implemented")
+}
+func (UnimplementedCostServer) TotalBasket(context.Context, *Basket) (*CostResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TotalBasket not implemented")
 }
 
 // UnsafeCostServer may be embedded to opt out of forward compatibility for this service.
@@ -86,6 +100,24 @@ func _Cost_GetUnitCost_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cost_TotalBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Basket)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CostServer).TotalBasket(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Cost/TotalBasket",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CostServer).TotalBasket(ctx, req.(*Basket))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Cost_ServiceDesc is the grpc.ServiceDesc for Cost service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -96,6 +128,10 @@ var Cost_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUnitCost",
 			Handler:    _Cost_GetUnitCost_Handler,
+		},
+		{
+			MethodName: "TotalBasket",
+			Handler:    _Cost_TotalBasket_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

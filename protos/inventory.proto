@@ -1,10 +1,11 @@
 syntax = "proto3";
 
-option go_package = "inventory/";
+option go_package = "github.com/JBurton26/msoa-go/protos/inventory/";
 
 service Inventory {
-  rpc GetStock(LevelRequest) returns (LevelResponse);
+  rpc GetStock(LevelRequest) returns (StockItem);
   rpc ChangeStock(AmendRequest) returns (AmendResponse);
+  rpc CheckShort(ShortRequest) returns (ShortList);
 }
 
 message LevelRequest {
@@ -12,8 +13,8 @@ message LevelRequest {
   string Location = 2;
 }
 
-message LevelResponse {
-  int32 StockCount = 1;
+message ShortRequest {
+  string Location = 1;
 }
 
 message AmendRequest {
@@ -24,4 +25,15 @@ message AmendRequest {
 
 message AmendResponse{
   string Response = 1;
+}
+
+message StockItem {
+  string ID = 1;
+  string Location = 2;
+  string Name = 3;
+  int32 StockCount = 4;
+}
+
+message ShortList {
+  repeated StockItem SList = 1;
 }
