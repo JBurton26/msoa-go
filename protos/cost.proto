@@ -19,5 +19,5 @@ message CostRequest {
 }
 
 message CostResponse {
-  float Price = 1;
+  double Price = 1;
 }

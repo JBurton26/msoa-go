@@ -20,7 +20,8 @@ message ShortRequest {
 message AmendRequest {
   string ID = 1;
   string Location = 2;
-  int32 Amount = 3;
+  int64 Amount = 3;
+  string Name = 4;
 }
 
 message AmendResponse{
@@ -31,7 +32,7 @@ message StockItem {
   string ID = 1;
   string Location = 2;
   string Name = 3;
-  int32 StockCount = 4;
+  int64 StockCount = 4;
 }
 
 message ShortList {

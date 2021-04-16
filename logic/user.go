@@ -3,7 +3,9 @@ package logic
 import (
 	"context"
 
+	firebase "firebase.google.com/go"
 	user "github.com/JBurton26/msoa-go/protos/user"
+	"google.golang.org/api/option"
 
 	hclog "github.com/hashicorp/go-hclog"
 )
@@ -15,6 +17,18 @@ type User struct {
 
 // NewUser Initialise
 func NewUser(l hclog.Logger) *User {
+	sa := option.WithCredentialsFile("creds/msoa-go-user.json")
+
+	app, err := firebase.NewApp(context.Background(), nil, sa)
+	if err != nil {
+		l.Info("Error", "err1", err)
+	}
+
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		l.Info("Error", "err2", err.Error())
+	}
+	defer client.Close()
 	return &User{l}
 }
 

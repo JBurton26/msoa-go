@@ -16,7 +16,7 @@ message OrderRequest {
   string StaffID = 3;
   repeated Item Basket = 4;
   optional string Email = 5;
-  float Total = 6;
+  double Total = 6;
 }
 
 message OrderResponse {

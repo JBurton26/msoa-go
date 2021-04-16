@@ -9,7 +9,9 @@ import (
 	logic "github.com/JBurton26/msoa-go/logic"
 	cost "github.com/JBurton26/msoa-go/protos/cost"
 	inv "github.com/JBurton26/msoa-go/protos/inventory"
+	order "github.com/JBurton26/msoa-go/protos/order"
 	user "github.com/JBurton26/msoa-go/protos/user"
+
 	hclog "github.com/hashicorp/go-hclog"
 	"google.golang.org/grpc"
 )
@@ -17,12 +19,19 @@ import (
 func main() {
 	log := hclog.Default()
 	gs := grpc.NewServer()
-	i := logic.NewInventory(log)
+
+	invConf := "creds/msoa-go-inventory.json"
+	i := logic.NewInventory(log, invConf)
+
 	c := logic.NewCost(log)
 	u := logic.NewUser(log)
+	o := logic.NewOrder(log)
+
 	inv.RegisterInventoryServer(gs, i)
 	cost.RegisterCostServer(gs, c)
 	user.RegisterUserServer(gs, u)
+	order.RegisterOrderServer(gs, o)
+
 	reflection.Register(gs)
 	l, err := net.Listen("tcp", ":9092")
 
