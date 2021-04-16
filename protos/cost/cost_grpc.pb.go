@@ -23,6 +23,8 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CostClient interface {
 	GetUnitCost(ctx context.Context, in *CostRequest, opts ...grpc.CallOption) (*CostResponse, error)
+	UpdateUnitCost(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
+	AddUnitCost(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error)
 	TotalBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*CostResponse, error)
 }
 
@@ -43,6 +45,24 @@ func (c *costClient) GetUnitCost(ctx context.Context, in *CostRequest, opts ...g
 	return out, nil
 }
 
+func (c *costClient) UpdateUnitCost(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+	out := new(UpdateResponse)
+	err := c.cc.Invoke(ctx, "/Cost/UpdateUnitCost", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *costClient) AddUnitCost(ctx context.Context, in *UpdateRequest, opts ...grpc.CallOption) (*UpdateResponse, error) {
+	out := new(UpdateResponse)
+	err := c.cc.Invoke(ctx, "/Cost/AddUnitCost", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *costClient) TotalBasket(ctx context.Context, in *Basket, opts ...grpc.CallOption) (*CostResponse, error) {
 	out := new(CostResponse)
 	err := c.cc.Invoke(ctx, "/Cost/TotalBasket", in, out, opts...)
@@ -57,6 +77,8 @@ func (c *costClient) TotalBasket(ctx context.Context, in *Basket, opts ...grpc.C
 // for forward compatibility
 type CostServer interface {
 	GetUnitCost(context.Context, *CostRequest) (*CostResponse, error)
+	UpdateUnitCost(context.Context, *UpdateRequest) (*UpdateResponse, error)
+	AddUnitCost(context.Context, *UpdateRequest) (*UpdateResponse, error)
 	TotalBasket(context.Context, *Basket) (*CostResponse, error)
 }
 
@@ -66,6 +88,12 @@ type UnimplementedCostServer struct {
 
 func (UnimplementedCostServer) GetUnitCost(context.Context, *CostRequest) (*CostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUnitCost not implemented")
+}
+func (UnimplementedCostServer) UpdateUnitCost(context.Context, *UpdateRequest) (*UpdateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUnitCost not implemented")
+}
+func (UnimplementedCostServer) AddUnitCost(context.Context, *UpdateRequest) (*UpdateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddUnitCost not implemented")
 }
 func (UnimplementedCostServer) TotalBasket(context.Context, *Basket) (*CostResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TotalBasket not implemented")
@@ -100,6 +128,42 @@ func _Cost_GetUnitCost_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Cost_UpdateUnitCost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CostServer).UpdateUnitCost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Cost/UpdateUnitCost",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CostServer).UpdateUnitCost(ctx, req.(*UpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Cost_AddUnitCost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CostServer).AddUnitCost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Cost/AddUnitCost",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CostServer).AddUnitCost(ctx, req.(*UpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Cost_TotalBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Basket)
 	if err := dec(in); err != nil {
@@ -128,6 +192,14 @@ var Cost_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUnitCost",
 			Handler:    _Cost_GetUnitCost_Handler,
+		},
+		{
+			MethodName: "UpdateUnitCost",
+			Handler:    _Cost_UpdateUnitCost_Handler,
+		},
+		{
+			MethodName: "AddUnitCost",
+			Handler:    _Cost_AddUnitCost_Handler,
 		},
 		{
 			MethodName: "TotalBasket",

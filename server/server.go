@@ -22,8 +22,9 @@ func main() {
 
 	invConf := "creds/msoa-go-inventory.json"
 	i := logic.NewInventory(log, invConf)
-
-	c := logic.NewCost(log)
+	costConf := "creds/msoa-go-cost.json"
+	c := logic.NewCost(log, costConf)
+	//userConf := "creds/msoa-go-user.json"
 	u := logic.NewUser(log)
 	o := logic.NewOrder(log)
 

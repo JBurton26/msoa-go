@@ -22,6 +22,7 @@ message AmendRequest {
   string Location = 2;
   int64 Amount = 3;
   string Name = 4;
+  double Price = 5;
 }
 
 message AmendResponse{

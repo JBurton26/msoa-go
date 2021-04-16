@@ -3,7 +3,10 @@ package logic
 import (
 	"context"
 
+	"google.golang.org/grpc"
+
 	"cloud.google.com/go/firestore"
+	cost "github.com/JBurton26/msoa-go/protos/cost"
 	inv "github.com/JBurton26/msoa-go/protos/inventory"
 	tools "github.com/JBurton26/msoa-go/tools"
 	hclog "github.com/hashicorp/go-hclog"
@@ -29,7 +32,6 @@ func (i *Inventory) GetStock(ctx context.Context, lr *inv.LevelRequest) (*inv.St
 	var stock inv.StockItem
 	app, err := tools.SetFirebase(ctx, i.log, i.path)
 	if err != nil {
-		i.log.Info("Error", "err", err.Error())
 		return nil, err
 	}
 	client, err := app.Firestore(context.Background())
@@ -42,10 +44,12 @@ func (i *Inventory) GetStock(ctx context.Context, lr *inv.LevelRequest) (*inv.St
 	doc, err := iter.Next()
 	if err == iterator.Done {
 		i.log.Info("Error: Iterator", "err", err.Error())
+		client.Close()
 		return &inv.StockItem{}, nil
 	}
 	if err != nil {
 		i.log.Info("Error: Iterator", "err", err.Error())
+		client.Close()
 		return &inv.StockItem{}, nil
 	}
 
@@ -73,6 +77,7 @@ func (i *Inventory) ChangeStock(ctx context.Context, cr *inv.AmendRequest) (*inv
 	if err == iterator.Done {
 		if cr.GetAmount() < 0 {
 			i.log.Info("Error: AmendResponse", "Error", "Stock Does Not Exist")
+			client.Close()
 			return &inv.AmendResponse{Response: "Cannot Remove from stock that does not exist."}, nil
 		}
 
@@ -85,10 +90,31 @@ func (i *Inventory) ChangeStock(ctx context.Context, cr *inv.AmendRequest) (*inv
 			"StockCount": value,
 		})
 		i.log.Info("Success: AmendResponse", "Stock Added")
+		client.Close()
+
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial(":9092", grpc.WithInsecure())
+		if err != nil {
+			i.log.Error("Unable to listen", err)
+		}
+		defer conn.Close()
+		costCli := cost.NewCostClient(conn)
+		mess := cost.UpdateRequest{
+			ID:    newID,
+			Price: cr.GetPrice(),
+		}
+		res, err := costCli.AddUnitCost(ctx, &mess)
+		if err != nil {
+			i.log.Error("Error when calling AddUnitCost", err)
+			conn.Close()
+		}
+		i.log.Info("Cost MicroService AddUnitCost", "Response", res.GetSuccess())
+
 		return &inv.AmendResponse{Response: "Successfully Added."}, nil
 	}
 	if err != nil {
 		i.log.Info("Error: AmendResponse", "Error", err)
+		client.Close()
 		return &inv.AmendResponse{Response: "Error Occurred During Operation."}, nil
 	}
 	curVal := doc.Data()["StockCount"].(int64)
@@ -102,6 +128,7 @@ func (i *Inventory) ChangeStock(ctx context.Context, cr *inv.AmendRequest) (*inv
 		})
 
 	} else {
+		client.Close()
 		i.log.Info("Error: AmendResponse", "Value after operation", postVal)
 		return &inv.AmendResponse{Response: "Not Enough Stock."}, nil
 	}
@@ -133,6 +160,7 @@ func (i *Inventory) CheckShort(ctx context.Context, sr *inv.ShortRequest) (*inv.
 			break
 		}
 		if err != nil {
+			client.Close()
 			i.log.Info("Error: Iterator Error", "err", err.Error())
 			return &inv.ShortList{}, nil
 		}

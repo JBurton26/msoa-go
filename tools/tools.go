@@ -13,7 +13,6 @@ import (
 // SetFirebase Over utilised
 func SetFirebase(ctx context.Context, log hclog.Logger, path string) (*firebase.App, error) {
 	sa := option.WithCredentialsFile(path)
-	//l.Info("Info", "sa", sa)
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
 		log.Info("Error", "err1", err)
