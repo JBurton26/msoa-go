@@ -11,11 +11,14 @@ require (
 	github.com/fullstorydev/grpcurl v1.8.0 // indirect
 	github.com/hashicorp/go-hclog v0.16.0
 	github.com/mdempsky/maligned v0.0.0-20210215075342-f0178ee82032 // indirect
+	github.com/mdempsky/unconvert v0.0.0-20200228143138-95ecdbfc0b5f // indirect
 	github.com/mibk/dupl v1.0.0 // indirect
 	github.com/mitchellh/mapstructure v1.4.1
 	github.com/opennota/check v0.0.0-20180911053232-0c771f5545ff // indirect
 	github.com/prometheus/common v0.4.0
 	github.com/stripe/safesql v0.2.0 // indirect
+	github.com/tsenart/deadcode v0.0.0-20160724212837-210d2dc333e9 // indirect
+	github.com/walle/lll v1.0.1 // indirect
 	golang.org/x/tools v0.1.0 // indirect
 	google.golang.org/api v0.40.0
 	google.golang.org/grpc v1.37.0

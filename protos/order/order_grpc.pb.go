@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrderClient interface {
+	AddToBasket(ctx context.Context, in *AddToCart, opts ...grpc.CallOption) (*Cart, error)
 	MakeOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error)
 }
 
@@ -31,6 +32,15 @@ type orderClient struct {
 
 func NewOrderClient(cc grpc.ClientConnInterface) OrderClient {
 	return &orderClient{cc}
+}
+
+func (c *orderClient) AddToBasket(ctx context.Context, in *AddToCart, opts ...grpc.CallOption) (*Cart, error) {
+	out := new(Cart)
+	err := c.cc.Invoke(ctx, "/Order/AddToBasket", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *orderClient) MakeOrder(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderResponse, error) {
@@ -46,6 +56,7 @@ func (c *orderClient) MakeOrder(ctx context.Context, in *OrderRequest, opts ...g
 // All implementations should embed UnimplementedOrderServer
 // for forward compatibility
 type OrderServer interface {
+	AddToBasket(context.Context, *AddToCart) (*Cart, error)
 	MakeOrder(context.Context, *OrderRequest) (*OrderResponse, error)
 }
 
@@ -53,6 +64,9 @@ type OrderServer interface {
 type UnimplementedOrderServer struct {
 }
 
+func (UnimplementedOrderServer) AddToBasket(context.Context, *AddToCart) (*Cart, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddToBasket not implemented")
+}
 func (UnimplementedOrderServer) MakeOrder(context.Context, *OrderRequest) (*OrderResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MakeOrder not implemented")
 }
@@ -66,6 +80,24 @@ type UnsafeOrderServer interface {
 
 func RegisterOrderServer(s grpc.ServiceRegistrar, srv OrderServer) {
 	s.RegisterService(&Order_ServiceDesc, srv)
+}
+
+func _Order_AddToBasket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddToCart)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).AddToBasket(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Order/AddToBasket",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).AddToBasket(ctx, req.(*AddToCart))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Order_MakeOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -93,6 +125,10 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "Order",
 	HandlerType: (*OrderServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddToBasket",
+			Handler:    _Order_AddToBasket_Handler,
+		},
 		{
 			MethodName: "MakeOrder",
 			Handler:    _Order_MakeOrder_Handler,

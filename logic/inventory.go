@@ -174,3 +174,37 @@ func (i *Inventory) CheckShort(ctx context.Context, sr *inv.ShortRequest) (*inv.
 
 	return &short, nil
 }
+
+// GetStore Gets a list of all stocks for a location
+func (i *Inventory) GetStore(ctx context.Context, sr *inv.ShortRequest) (*inv.ShortList, error) {
+	i.log.Info("Handle GetStore", "location", sr.GetLocation())
+	var store inv.ShortList
+	app, err := tools.SetFirebase(ctx, i.log, i.path)
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		i.log.Info("Error: Declaring Firestore app", "err", err.Error())
+	}
+	defer client.Close()
+
+	iter := client.Collection("inventory").Where("Location", "==", sr.GetLocation()).Documents(ctx)
+	for {
+		doc, err := iter.Next()
+		var stock inv.StockItem
+		if err == iterator.Done {
+			i.log.Info("Error: Iterator Finished", "err", err.Error())
+			break
+		}
+		if err != nil {
+			client.Close()
+			i.log.Info("Error: Iterator Error", "err", err.Error())
+			return &inv.ShortList{}, nil
+		}
+		i.log.Info("Info", "stock", doc.Data())
+		mapstructure.Decode(doc.Data(), &stock)
+		store.SList = append(store.SList, &stock)
+	}
+
+	client.Close()
+
+	return &store, nil
+}

@@ -24,9 +24,10 @@ func main() {
 	i := logic.NewInventory(log, invConf)
 	costConf := "creds/msoa-go-cost.json"
 	c := logic.NewCost(log, costConf)
-	//userConf := "creds/msoa-go-user.json"
-	u := logic.NewUser(log)
-	o := logic.NewOrder(log)
+	userConf := "creds/msoa-go-user.json"
+	u := logic.NewUser(log, userConf)
+	orderConf := "creds/msoa-go-order.json"
+	o := logic.NewOrder(log, orderConf)
 
 	inv.RegisterInventoryServer(gs, i)
 	cost.RegisterCostServer(gs, c)

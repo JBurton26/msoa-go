@@ -6,6 +6,7 @@ service Inventory {
   rpc GetStock(LevelRequest) returns (StockItem);
   rpc ChangeStock(AmendRequest) returns (AmendResponse);
   rpc CheckShort(ShortRequest) returns (ShortList);
+  rpc GetStore(ShortRequest) returns (ShortList);
 }
 
 message LevelRequest {

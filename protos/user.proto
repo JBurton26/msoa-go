@@ -7,7 +7,18 @@ service User {
   rpc GetUserByUN(UNUserRequest) returns (UserResponse);
   rpc GetAccess(IDUserRequest) returns (AccessResponse);
   rpc Login(AuthsRequest) returns (AccessResponse);
+
 }
+
+enum AccessLevel {
+  BASE = 0;
+  DEFAULT = 1;
+  STAFF = 2;
+  MANAGER = 3;
+  ADMIN = 4;
+}
+
+message Empty {}
 
 message IDUserRequest {
   string ID = 1;
@@ -26,9 +37,11 @@ message UserResponse {
   string ID = 1;
   string Name = 2;
   string Username = 3;
-  int32 AccessLevel = 4;
+  AccessLevel AccessLevel = 4;
+  string Location = 5;
 }
 
 message AccessResponse {
-  int32 AccessLevel = 1;
+  AccessLevel AccessLevel = 1;
+  string Location = 2;
 }
