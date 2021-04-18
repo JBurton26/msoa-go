@@ -7,7 +7,6 @@ service User {
   rpc GetUserByUN(UNUserRequest) returns (UserResponse);
   rpc GetAccess(IDUserRequest) returns (AccessResponse);
   rpc Login(AuthsRequest) returns (AccessResponse);
-
 }
 
 enum AccessLevel {
@@ -17,8 +16,6 @@ enum AccessLevel {
   MANAGER = 3;
   ADMIN = 4;
 }
-
-message Empty {}
 
 message IDUserRequest {
   string ID = 1;

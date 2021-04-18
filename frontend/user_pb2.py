@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'Z)github.com/JBurton26/msoa-go/protos/user/',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\nuser.proto\"\x07\n\x05\x45mpty\"\x1b\n\rIDUserRequest\x12\n\n\x02ID\x18\x01 \x01(\t\"!\n\rUNUserRequest\x12\x10\n\x08Username\x18\x01 \x01(\t\".\n\x0c\x41uthsRequest\x12\x10\n\x08Username\x18\x01 \x01(\t\x12\x0c\n\x04Pass\x18\x02 \x01(\t\"o\n\x0cUserResponse\x12\n\n\x02ID\x18\x01 \x01(\t\x12\x0c\n\x04Name\x18\x02 \x01(\t\x12\x10\n\x08Username\x18\x03 \x01(\t\x12!\n\x0b\x41\x63\x63\x65ssLevel\x18\x04 \x01(\x0e\x32\x0c.AccessLevel\x12\x10\n\x08Location\x18\x05 \x01(\t\"E\n\x0e\x41\x63\x63\x65ssResponse\x12!\n\x0b\x41\x63\x63\x65ssLevel\x18\x01 \x01(\x0e\x32\x0c.AccessLevel\x12\x10\n\x08Location\x18\x02 \x01(\t*G\n\x0b\x41\x63\x63\x65ssLevel\x12\x08\n\x04\x42\x41SE\x10\x00\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x01\x12\t\n\x05STAFF\x10\x02\x12\x0b\n\x07MANAGER\x10\x03\x12\t\n\x05\x41\x44MIN\x10\x04\x32\xb9\x01\n\x04User\x12,\n\x0bGetUserByID\x12\x0e.IDUserRequest\x1a\r.UserResponse\x12,\n\x0bGetUserByUN\x12\x0e.UNUserRequest\x1a\r.UserResponse\x12,\n\tGetAccess\x12\x0e.IDUserRequest\x1a\x0f.AccessResponse\x12\'\n\x05Login\x12\r.AuthsRequest\x1a\x0f.AccessResponseB+Z)github.com/JBurton26/msoa-go/protos/user/b\x06proto3'
+  serialized_pb=b'\n\nuser.proto\"\x1b\n\rIDUserRequest\x12\n\n\x02ID\x18\x01 \x01(\t\"!\n\rUNUserRequest\x12\x10\n\x08Username\x18\x01 \x01(\t\".\n\x0c\x41uthsRequest\x12\x10\n\x08Username\x18\x01 \x01(\t\x12\x0c\n\x04Pass\x18\x02 \x01(\t\"o\n\x0cUserResponse\x12\n\n\x02ID\x18\x01 \x01(\t\x12\x0c\n\x04Name\x18\x02 \x01(\t\x12\x10\n\x08Username\x18\x03 \x01(\t\x12!\n\x0b\x41\x63\x63\x65ssLevel\x18\x04 \x01(\x0e\x32\x0c.AccessLevel\x12\x10\n\x08Location\x18\x05 \x01(\t\"E\n\x0e\x41\x63\x63\x65ssResponse\x12!\n\x0b\x41\x63\x63\x65ssLevel\x18\x01 \x01(\x0e\x32\x0c.AccessLevel\x12\x10\n\x08Location\x18\x02 \x01(\t*G\n\x0b\x41\x63\x63\x65ssLevel\x12\x08\n\x04\x42\x41SE\x10\x00\x12\x0b\n\x07\x44\x45\x46\x41ULT\x10\x01\x12\t\n\x05STAFF\x10\x02\x12\x0b\n\x07MANAGER\x10\x03\x12\t\n\x05\x41\x44MIN\x10\x04\x32\xb9\x01\n\x04User\x12,\n\x0bGetUserByID\x12\x0e.IDUserRequest\x1a\r.UserResponse\x12,\n\x0bGetUserByUN\x12\x0e.UNUserRequest\x1a\r.UserResponse\x12,\n\tGetAccess\x12\x0e.IDUserRequest\x1a\x0f.AccessResponse\x12\'\n\x05Login\x12\r.AuthsRequest\x1a\x0f.AccessResponseB+Z)github.com/JBurton26/msoa-go/protos/user/b\x06proto3'
 )
 
 _ACCESSLEVEL = _descriptor.EnumDescriptor(
@@ -58,8 +58,8 @@ _ACCESSLEVEL = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=319,
-  serialized_end=390,
+  serialized_start=310,
+  serialized_end=381,
 )
 _sym_db.RegisterEnumDescriptor(_ACCESSLEVEL)
 
@@ -70,31 +70,6 @@ STAFF = 2
 MANAGER = 3
 ADMIN = 4
 
-
-
-_EMPTY = _descriptor.Descriptor(
-  name='Empty',
-  full_name='Empty',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  create_key=_descriptor._internal_create_key,
-  fields=[
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  serialized_options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=14,
-  serialized_end=21,
-)
 
 
 _IDUSERREQUEST = _descriptor.Descriptor(
@@ -124,8 +99,8 @@ _IDUSERREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=23,
-  serialized_end=50,
+  serialized_start=14,
+  serialized_end=41,
 )
 
 
@@ -156,8 +131,8 @@ _UNUSERREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=52,
-  serialized_end=85,
+  serialized_start=43,
+  serialized_end=76,
 )
 
 
@@ -195,8 +170,8 @@ _AUTHSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=87,
-  serialized_end=133,
+  serialized_start=78,
+  serialized_end=124,
 )
 
 
@@ -255,8 +230,8 @@ _USERRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=135,
-  serialized_end=246,
+  serialized_start=126,
+  serialized_end=237,
 )
 
 
@@ -294,13 +269,12 @@ _ACCESSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=248,
-  serialized_end=317,
+  serialized_start=239,
+  serialized_end=308,
 )
 
 _USERRESPONSE.fields_by_name['AccessLevel'].enum_type = _ACCESSLEVEL
 _ACCESSRESPONSE.fields_by_name['AccessLevel'].enum_type = _ACCESSLEVEL
-DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['IDUserRequest'] = _IDUSERREQUEST
 DESCRIPTOR.message_types_by_name['UNUserRequest'] = _UNUSERREQUEST
 DESCRIPTOR.message_types_by_name['AuthsRequest'] = _AUTHSREQUEST
@@ -308,13 +282,6 @@ DESCRIPTOR.message_types_by_name['UserResponse'] = _USERRESPONSE
 DESCRIPTOR.message_types_by_name['AccessResponse'] = _ACCESSRESPONSE
 DESCRIPTOR.enum_types_by_name['AccessLevel'] = _ACCESSLEVEL
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
-
-Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
-  'DESCRIPTOR' : _EMPTY,
-  '__module__' : 'user_pb2'
-  # @@protoc_insertion_point(class_scope:Empty)
-  })
-_sym_db.RegisterMessage(Empty)
 
 IDUserRequest = _reflection.GeneratedProtocolMessageType('IDUserRequest', (_message.Message,), {
   'DESCRIPTOR' : _IDUSERREQUEST,
@@ -361,8 +328,8 @@ _USER = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=393,
-  serialized_end=578,
+  serialized_start=384,
+  serialized_end=569,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetUserByID',

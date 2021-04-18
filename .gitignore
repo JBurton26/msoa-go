@@ -1,3 +1,5 @@
 #Ignore any credentials files
 protos/*/*.json
 creds/*
+**__pycache__
+**.pyc

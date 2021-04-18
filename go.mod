@@ -7,15 +7,18 @@ require (
 	4d63.com/gochecknoinits v0.0.0-20200108094044-eb73b47b9fc4 // indirect
 	cloud.google.com/go/firestore v1.5.0
 	firebase.google.com/go v3.13.0+incompatible
+	github.com/alecthomas/gocyclo v0.0.0-20150208221726-aa8f8b160214 // indirect
 	github.com/alexkohler/nakedret v1.0.0 // indirect
 	github.com/fullstorydev/grpcurl v1.8.0 // indirect
 	github.com/hashicorp/go-hclog v0.16.0
+	github.com/jgautheron/goconst v1.4.0 // indirect
 	github.com/mdempsky/maligned v0.0.0-20210215075342-f0178ee82032 // indirect
 	github.com/mdempsky/unconvert v0.0.0-20200228143138-95ecdbfc0b5f // indirect
 	github.com/mibk/dupl v1.0.0 // indirect
 	github.com/mitchellh/mapstructure v1.4.1
 	github.com/opennota/check v0.0.0-20180911053232-0c771f5545ff // indirect
-	github.com/prometheus/common v0.4.0
+	github.com/prometheus/common v0.4.0 // indirect
+	github.com/securego/gosec v0.0.0-20200401082031-e946c8c39989 // indirect
 	github.com/stripe/safesql v0.2.0 // indirect
 	github.com/tsenart/deadcode v0.0.0-20160724212837-210d2dc333e9 // indirect
 	github.com/walle/lll v1.0.1 // indirect
