@@ -80,7 +80,16 @@ func (i *Inventory) ChangeStock(ctx context.Context, cr *inv.AmendRequest) (*inv
 			client.Close()
 			return &inv.AmendResponse{Response: "Cannot Remove from stock that does not exist."}, nil
 		}
-
+		if cr.GetLocation() == "" {
+			i.log.Info("Error: AmendResponse", "Error", "Stock Has No Location")
+			client.Close()
+			return &inv.AmendResponse{Response: "Location Empty."}, nil
+		}
+		if cr.GetPrice() == 0 {
+			i.log.Info("Error: AmendResponse", "Error", "Stock Has No Price")
+			client.Close()
+			return &inv.AmendResponse{Response: "Price cannot be 0."}, nil
+		}
 		value := cr.GetAmount()
 		newID := tools.RandSeq()
 		_, err = client.Collection("inventory").Doc(newID).Set(ctx, map[string]interface{}{

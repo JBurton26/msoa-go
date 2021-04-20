@@ -73,7 +73,7 @@ func (u *User) GetUserByUN(ctx context.Context, ur *user.UNUserRequest) (*user.U
 	return &u1, nil
 }
 
-// GetAccess blahblablah
+// GetAccess DEPRECATED METHOD DUE TO COOKIES WITH HARD CODED VALUE
 func (u *User) GetAccess(ctx context.Context, ur *user.IDUserRequest) (*user.AccessResponse, error) {
 	access := user.AccessResponse{
 		AccessLevel: 3,

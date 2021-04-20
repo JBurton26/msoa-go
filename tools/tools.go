@@ -10,7 +10,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-// SetFirebase Over utilised
+// SetFirebase Takes in a path for a auths file (path) and returns a firebase app with the correct credencials.
 func SetFirebase(ctx context.Context, log hclog.Logger, path string) (*firebase.App, error) {
 	sa := option.WithCredentialsFile(path)
 	app, err := firebase.NewApp(context.Background(), nil, sa)

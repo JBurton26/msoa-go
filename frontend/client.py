@@ -9,14 +9,13 @@ import inventory_pb2, inventory_pb2_grpc
 import cost_pb2, cost_pb2_grpc
 import user_pb2, user_pb2_grpc
 import order_pb2, order_pb2_grpc
-from flask import Flask, render_template, request, make_response, session, url_for, redirect
 
+from flask import Flask, render_template, request, make_response, session, url_for, redirect
 from protobuf_to_dict import protobuf_to_dict
 from functools import wraps
-from http import cookies
+
 
 app = Flask(__name__)
-loccookie = cookies.SimpleCookie()
 app.secret_key='\xee\xf1-\xc4\xec\x98\x9b\xc2\xba\xe2\x8e\xa0\x91o\x93M\xec\xd8`\xf6\t/\xff\xad'
 
 def requires_login(f):
@@ -51,10 +50,8 @@ def home():
         invStub = inventory_pb2_grpc.InventoryStub(channel)
         costStub = cost_pb2_grpc.CostStub(channel)
         loc = session.get('location')
-        print(loc)
         response = invStub.GetStore(inventory_pb2.ShortRequest(Location=str(loc)),
                                  timeout=10)
-        print(response)
         if response == None:
             return redirect(url_for('home'))
         xys = protobuf_to_dict(response, use_enum_labels=True)
@@ -79,7 +76,6 @@ def login():
             session['logged_in'] = True
             session['name'] = username
             session['location'] = response.Location
-            print(response.Location)
             session['access_level'] = response.AccessLevel
             return redirect(url_for('home'))
         else:
@@ -101,11 +97,11 @@ def result():
             ('grpc.keepalive_timeout_ms', 10000)
             ]) as channel:
         invStub = inventory_pb2_grpc.InventoryStub(channel)
-        response = invStub.CheckShort(inventory_pb2.ShortRequest(Location=loccookie['location'].value),
+        response = invStub.CheckShort(inventory_pb2.ShortRequest(Location=session.get('location')),
                                  timeout=10)
 
         xy = protobuf_to_dict(response, use_enum_labels=True)['SList']
-    return render_template('review.html', items=xy, loc=loccookie['location'].value), 200
+    return render_template('review.html', items=xy, loc=session.get('location')), 200
 
 @app.route('/disc/<id>')
 def itemDisc(id):
@@ -140,5 +136,4 @@ if __name__ == '__main__':
     logging.basicConfig()
     #Hard Coding of Location
     #session['logged_in'] = False
-    loccookie['location'] = "testlocation1"
     app.run(host='0.0.0.0', port=80, debug=False)

@@ -93,7 +93,7 @@ func (c *Cost) UpdateUnitCost(ctx context.Context, ar *cost.UpdateRequest) (*cos
 		client.Close()
 		return &cost.UpdateResponse{Success: false}, nil
 	}
-	_, err = client.Collection("inventory").Doc(doc.Ref.ID).Update(ctx, []firestore.Update{
+	_, err = client.Collection("costs").Doc(doc.Ref.ID).Update(ctx, []firestore.Update{
 		{
 			Path:  "Price",
 			Value: ar.GetPrice(),
@@ -107,6 +107,11 @@ func (c *Cost) UpdateUnitCost(ctx context.Context, ar *cost.UpdateRequest) (*cos
 // AddUnitCost Updates a Unit Cost
 func (c *Cost) AddUnitCost(ctx context.Context, ar *cost.UpdateRequest) (*cost.UpdateResponse, error) {
 	c.log.Info("Handle AddUnitCost", "ID", ar.GetID(), "New Cost", ar.GetPrice())
+	if ar.GetID() == "" {
+		c.log.Info("Error: AddUnitCost", "Error", "No Values")
+		upd := cost.UpdateResponse{Success: false}
+		return &upd, nil
+	}
 	app, err := tools.SetFirebase(ctx, c.log, c.path)
 	client, err := app.Firestore(context.Background())
 	if err != nil {
