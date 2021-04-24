@@ -3,3 +3,6 @@ protos/*/*.json
 creds/*
 **__pycache__
 **.pyc
+*/__pycache__
+/frontend/*
+/frontend
